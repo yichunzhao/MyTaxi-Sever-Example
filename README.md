@@ -47,3 +47,4 @@ Security: secure the API. It's up to you how you are going to implement the secu
 
 NOTE:
 Please make sure to not submit any personal data with your tests result. Personal data is for example your name, your birthdate, email address etc.
+# mytaxi_server_applicant_test
