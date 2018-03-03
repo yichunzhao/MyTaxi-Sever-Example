@@ -2,6 +2,7 @@ package com.mytaxi.domainobject;
 
 import com.mytaxi.domainvalue.GeoCoordinate;
 import com.mytaxi.domainvalue.OnlineStatus;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -20,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
     name = "driver",
     uniqueConstraints = @UniqueConstraint(name = "uc_username", columnNames = {"username"})
 )
-public class DriverDO
+public class DriverDO implements Serializable
 {
 
     @Id
@@ -53,11 +54,8 @@ public class DriverDO
     @Column(nullable = false)
     private OnlineStatus onlineStatus;
 
-
-    private DriverDO()
-    {
+    public DriverDO() {
     }
-
 
     public DriverDO(String username, String password)
     {
