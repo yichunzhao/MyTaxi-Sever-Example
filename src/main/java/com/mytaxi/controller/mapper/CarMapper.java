@@ -23,7 +23,6 @@ public class CarMapper {
     public static CarDTO makeCarDTO(CarDO carDO) {
         return CarDTO.NewBuilder().withId(carDO.getId())
                 .withConvertible(carDO.isConvertible())
-                .withDateCreation(carDO.getDateCreation())
                 .withEngineType(carDO.getEngineType())
                 .withLicensePlate(carDO.getLicensePlate())
                 .withRating(carDO.getRating())

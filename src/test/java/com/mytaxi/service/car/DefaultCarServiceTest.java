@@ -31,7 +31,7 @@ public class DefaultCarServiceTest {
 
     @Autowired
     private CarService carService;
-
+    
     private CarDO carDO;
 
     public DefaultCarServiceTest() {

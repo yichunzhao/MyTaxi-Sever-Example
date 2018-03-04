@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.exception.ConstraintsViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -34,6 +36,7 @@ public class CarController {
     private CarService carService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CarDTO createCar(@Valid @RequestBody CarDTO carDTO) throws ConstraintsViolationException {
         CarDO carDO = CarMapper.makeCarDO(carDTO);
         CarDO created = carService.create(carDO);

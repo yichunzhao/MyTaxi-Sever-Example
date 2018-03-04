@@ -17,13 +17,15 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -31,7 +33,8 @@ import lombok.Data;
  */
 @Entity
 @Table(name = "CAR")
-@Data
+@Getter
+@Setter
 public class CarDO implements Serializable {
 
     @Id
@@ -67,12 +70,17 @@ public class CarDO implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private ZonedDateTime dateCreation;
 
+    @OneToOne
+    @JoinColumn(name = "Driver_PK_FK", referencedColumnName = "id")
+    private DriverDO driver;
+
     public CarDO() {
         dateCreation = ZonedDateTime.now();
     }
 
     public CarDO(CarDTO carDTO) {
         this();
+        this.id = carDTO.getId();
         this.convertible = carDTO.isConvertible();
         this.engineType = carDTO.getEngineType();
         this.licensePlate = carDTO.getLicensePlate();
@@ -80,6 +88,17 @@ public class CarDO implements Serializable {
                 .MakeManufacturerDO(carDTO.getManufacturer());
         this.rating = carDTO.getRating();
         this.seatCount = carDTO.getSeatCount();
+    }
+
+    public boolean isOccupied() {
+        boolean occupied = false;
+        if (driver != null && driver.getDeleted() == false
+                && driver.getId() != null && driver.getUsername() != null) {
+
+            occupied = true;
+        }
+        
+        return occupied;
     }
 
 }

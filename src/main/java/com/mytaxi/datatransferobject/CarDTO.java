@@ -6,7 +6,6 @@
 package com.mytaxi.datatransferobject;
 
 import com.mytaxi.domainvalue.EngineType;
-import java.time.ZonedDateTime;
 import lombok.Getter;
 
 /**
@@ -30,15 +29,12 @@ public class CarDTO {
 
     protected ManufacturerDTO manufacturer;
 
-    private ZonedDateTime dateCreation;
-
     public CarDTO() {
     }
 
     public CarDTO(Builder builder) {
         this.id = builder.id;
         this.convertible = builder.convertible;
-        this.dateCreation = builder.dateCreation;
         this.engineType = builder.engineType;
         this.licensePlate = builder.licensePlate;
         this.manufacturer = builder.manufacturer;
@@ -65,8 +61,6 @@ public class CarDTO {
         protected EngineType engineType;
 
         protected ManufacturerDTO manufacturer;
-
-        private ZonedDateTime dateCreation;
 
         public Builder withId(Long id) {
             this.id = id;
@@ -100,11 +94,6 @@ public class CarDTO {
 
         public Builder withManufacturer(ManufacturerDTO manufacturer) {
             this.manufacturer = manufacturer;
-            return this;
-        }
-
-        public Builder withDateCreation(ZonedDateTime dateCreation) {
-            this.dateCreation = dateCreation;
             return this;
         }
 

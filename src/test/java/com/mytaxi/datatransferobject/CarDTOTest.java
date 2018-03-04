@@ -27,7 +27,9 @@ public class CarDTOTest {
     
 
     public CarDTOTest() {
-        
+        manufacturerDTO = ManufacturerDTO.NewBuilder()
+                .withName(expectedManufacturerName)
+                .build();
         
         carDTO = CarDTO.NewBuilder()
                 .withId(expectedId)
@@ -36,10 +38,7 @@ public class CarDTOTest {
                 .withEngineType(expectedEngineType)
                 .withConvertible(expectedConvertible)
                 .withLicensePlate(expectedLicensePlate)
-                .build();
-        
-        manufacturerDTO = ManufacturerDTO.NewBuilder()
-                .withName(expectedManufacturerName)
+                .withManufacturer(manufacturerDTO)
                 .build();
     }
 
@@ -81,11 +80,6 @@ public class CarDTOTest {
     @Test
     public void testGetManufacturer() {
         assertEquals(this.expectedManufacturerName, carDTO.getManufacturer().getName());
-    }
-
-    @Test
-    public void testGetDateCreation() {
-        assertNotNull(carDTO.getDateCreation());
     }
 
 }
