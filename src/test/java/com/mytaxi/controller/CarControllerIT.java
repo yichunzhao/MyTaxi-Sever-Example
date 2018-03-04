@@ -11,8 +11,10 @@ import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.datatransferobject.ManufacturerDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainvalue.EngineType;
+import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.service.car.CarService;
 import javax.transaction.Transactional;
+import org.junit.Before;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,26 +46,40 @@ public class CarControllerIT {
     @Autowired
     private CarService carService;
 
-    private CarDTO carDTO;
-    private ManufacturerDTO mdto;
+    private CarDO faked;
+    private CarDO created;
 
     public CarControllerIT() {
-        mdto = ManufacturerDTO.NewBuilder()
-                .withName("TOYOTA")
-                .build();
+    }
 
-        carDTO = CarDTO.NewBuilder()
+    @Before
+    public void putFakeCar() throws ConstraintsViolationException {
+        faked = new CarDO(
+                CarDTO.NewBuilder()
+                        .withConvertible(true)
+                        .withEngineType(EngineType.GAS)
+                        .withLicensePlate("YYYLLOO")
+                        .withRating(5)
+                        .withSeatCount(7)
+                        .withManufacturer(ManufacturerDTO.NewBuilder().withName("Ford").build())
+                        .build()
+        );
+
+        created = this.carService.create(faked);
+    }
+
+    @Test
+    public void testCreateCar() throws Exception {
+
+        CarDTO carDTO = CarDTO.NewBuilder()
                 .withConvertible(true)
                 .withEngineType(EngineType.ELECTRIC)
                 .withLicensePlate("XXXLLOO")
                 .withRating(5)
                 .withSeatCount(7)
-                .withManufacturer(mdto)
+                .withManufacturer(ManufacturerDTO.NewBuilder().withName("TOYOTA").build())
                 .build();
-    }
 
-    @Test
-    public void testCreateCar() throws Exception {
         this.mvc.perform(post("/v1/cars")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(carDTO)))
@@ -71,27 +87,21 @@ public class CarControllerIT {
     }
 
     @Test
-    public void testFindCar() throws Exception {
+    public void testFindCarFail() throws Exception {
         Long id = 10L;
         this.mvc.perform(get("/v1/cars/" + id.toString()))
                 .andExpect(status().isNotFound());
     }
 
     @Test
+    public void testFindCarSuccess() throws Exception {
+        Long id = created.getId();
+        this.mvc.perform(get("/v1/cars/" + id))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testUpdateCar() throws Exception {
-
-        CarDO faked = new CarDO(
-                CarDTO.NewBuilder()
-                        .withConvertible(true)
-                        .withEngineType(EngineType.GAS)
-                        .withLicensePlate("YYYLLOO")
-                        .withRating(5)
-                        .withSeatCount(7)
-                        .withManufacturer(mdto)
-                        .build()
-        );
-
-        CarDO created = this.carService.create(faked);
 
         CarDO modified = new CarDO(
                 CarDTO.NewBuilder()
@@ -100,7 +110,7 @@ public class CarControllerIT {
                         .withLicensePlate("XXXLLOO")
                         .withRating(5)
                         .withSeatCount(7)
-                        .withManufacturer(mdto)
+                        .withManufacturer(ManufacturerDTO.NewBuilder().withName("Ford").build())
                         .build()
         );
 
@@ -112,10 +122,37 @@ public class CarControllerIT {
     }
 
     @Test
-    public void testDeleteCar() throws Exception {
+    public void testUpdateCarFail() throws Exception {
+        CarDO modified = new CarDO(
+                CarDTO.NewBuilder()
+                        .withConvertible(true)
+                        .withEngineType(EngineType.ELECTRIC)
+                        .withLicensePlate("XXXLLOO")
+                        .withRating(5)
+                        .withSeatCount(7)
+                        .withManufacturer(ManufacturerDTO.NewBuilder().withName("Ford").build())
+                        .build()
+        );
+
+        Long id = 10L;
+        this.mvc.perform(put("/v1/cars/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(modified)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testDeleteCarFail() throws Exception {
         Long id = 10L;
         this.mvc.perform(delete("/v1/cars/" + id.toString()))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testDeleteCar() throws Exception {
+        Long id = created.getId();
+        this.mvc.perform(delete("/v1/cars/" + id))
+                .andExpect(status().isOk());
     }
 
     public static String asJsonString(final Object obj) {
