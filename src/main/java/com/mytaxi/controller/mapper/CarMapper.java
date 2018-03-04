@@ -21,7 +21,11 @@ public class CarMapper {
     }
 
     public static CarDTO makeCarDTO(CarDO carDO) {
+        if (carDO == null) {
+            return null;
+        }
         return CarDTO.NewBuilder().withId(carDO.getId())
+                .isOccupied(carDO.isOccupied())
                 .withConvertible(carDO.isConvertible())
                 .withEngineType(carDO.getEngineType())
                 .withLicensePlate(carDO.getLicensePlate())
@@ -29,7 +33,6 @@ public class CarMapper {
                 .withSeatCount(carDO.getSeatCount())
                 .withManufacturer(ManufacturerMapper.MakeManufacturerDTO(carDO.getManufacturer()))
                 .build();
-
     }
 
     public static List<CarDTO> makeCarDTOList(List<CarDO> carDOs) {

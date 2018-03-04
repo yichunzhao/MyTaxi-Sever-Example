@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mytaxi.datatransferobject.CarDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.exception.ConstraintsViolationException;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,12 @@ public class CarController {
     public CarDTO findCar(@PathVariable long id) throws EntityNotFoundException {
         CarDO carDO = carService.find(id);
         return CarMapper.makeCarDTO(carDO);
+    }
+    
+    @GetMapping
+    public List<CarDTO> findCars() throws EntityNotFoundException{
+        List<CarDO> carDOs = carService.findAll();
+        return CarMapper.makeCarDTOList(carDOs);
     }
 
     @PutMapping(value = "/{id}")

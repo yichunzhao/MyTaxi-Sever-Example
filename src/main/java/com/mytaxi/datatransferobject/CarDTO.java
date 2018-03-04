@@ -5,6 +5,7 @@
  */
 package com.mytaxi.datatransferobject;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mytaxi.domainvalue.EngineType;
 import lombok.Getter;
 
@@ -27,6 +28,8 @@ public class CarDTO {
 
     protected EngineType engineType;
 
+    protected boolean isOccupied;
+
     protected ManufacturerDTO manufacturer;
 
     public CarDTO() {
@@ -48,19 +51,21 @@ public class CarDTO {
 
     public static class Builder {
 
-        protected Long id;
+        private Long id;
 
-        protected String licensePlate;
+        private String licensePlate;
 
-        protected int seatCount;
+        private int seatCount;
 
-        protected boolean convertible;
+        private boolean convertible;
 
-        protected int rating;
+        private int rating;
 
-        protected EngineType engineType;
+        private EngineType engineType;
 
-        protected ManufacturerDTO manufacturer;
+        private boolean isOccupied;
+
+        private ManufacturerDTO manufacturer;
 
         public Builder withId(Long id) {
             this.id = id;
@@ -89,6 +94,11 @@ public class CarDTO {
 
         public Builder withEngineType(EngineType engineType) {
             this.engineType = engineType;
+            return this;
+        }
+
+        public Builder isOccupied(boolean isOccupied) {
+            this.isOccupied = isOccupied;
             return this;
         }
 

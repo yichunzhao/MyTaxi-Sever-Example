@@ -13,15 +13,18 @@ import com.mytaxi.domainobject.ManufacturerDO;
  * @author YNZ
  */
 public class ManufacturerMapper {
-    
-    public static ManufacturerDO MakeManufacturerDO(ManufacturerDTO manufacturerDTO){
+
+    public static ManufacturerDO MakeManufacturerDO(ManufacturerDTO manufacturerDTO) {
         return new ManufacturerDO(manufacturerDTO.getName(), manufacturerDTO.getCar());
-    } 
-    
-    public static ManufacturerDTO MakeManufacturerDTO(ManufacturerDO manufacturerDO){
+    }
+
+    public static ManufacturerDTO MakeManufacturerDTO(ManufacturerDO manufacturerDO) {
+        if (manufacturerDO == null) {
+            return null;
+        }
         return ManufacturerDTO.NewBuilder()
                 .withId(manufacturerDO.getId())
                 .withName(manufacturerDO.getName()).build();
     }
-    
+
 }

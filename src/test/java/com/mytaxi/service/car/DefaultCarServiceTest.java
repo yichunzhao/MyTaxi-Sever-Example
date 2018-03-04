@@ -11,6 +11,7 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainvalue.EngineType;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
+import java.util.List;
 import javax.transaction.Transactional;
 
 import static org.junit.Assert.*;
@@ -31,7 +32,7 @@ public class DefaultCarServiceTest {
 
     @Autowired
     private CarService carService;
-    
+
     private CarDO carDO;
 
     public DefaultCarServiceTest() {
@@ -105,6 +106,13 @@ public class DefaultCarServiceTest {
                 .build());
         CarDO updated = carService.update(created.getId(), carDO_);
         assertEquals(updated.getLicensePlate(), "YYYLLOO");
+    }
+
+    @Test
+    public void testFindAllOK() throws Exception {
+        List<CarDO> cars = carService.findAll();
+        assertNotNull(cars);
+        assertTrue("car number <=0", cars.size() > 0);
     }
 
 }

@@ -64,13 +64,14 @@ public class DriverDO implements Serializable {
     public DriverDO() {
     }
 
-    public DriverDO(String username, String password) {
+    public DriverDO(String username, String password, CarDO car) {
         this.username = username;
         this.password = password;
         this.deleted = false;
         this.coordinate = null;
         this.dateCoordinateUpdated = null;
         this.onlineStatus = OnlineStatus.OFFLINE;
+        this.car = car;
     }
 
     public Long getId() {

@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author YNZ
  */
 
-@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Selected car is alaredy in use ...")
-public class CarAlreadyInUseException extends Exception {
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = " Offline driver is not allowed ...")
+public class OffLineDriverNotAllowed extends Exception{
 
-    public CarAlreadyInUseException(String message) {
-        super(message);
+    public OffLineDriverNotAllowed(String msg) {
+        super(msg);
     }
-
+    
 }

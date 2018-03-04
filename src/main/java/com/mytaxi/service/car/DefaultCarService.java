@@ -10,6 +10,8 @@ import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.exception.ConstraintsViolationException;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.service.driver.DefaultDriverService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.ConstraintViolationException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +22,25 @@ import org.springframework.stereotype.Service;
  *
  * @author YNZ
  */
-
 @Service
 public class DefaultCarService implements CarService {
-
+    
     private static org.slf4j.Logger LOG = LoggerFactory.getLogger(DefaultDriverService.class);
-
+    
     @Autowired
     CarDORepository carDORepository;
-
+    
     @Override
     public CarDO find(Long carId) throws EntityNotFoundException {
         CarDO car = carDORepository.findOne(carId);
-
+        
         if (car == null) {
             throw new EntityNotFoundException("Could not find entity with id: " + carId);
         }
-
+        
         return car;
     }
-
+    
     @Override
     public CarDO create(CarDO carDO) throws ConstraintsViolationException {
         CarDO car;
@@ -51,17 +52,32 @@ public class DefaultCarService implements CarService {
         }
         return car;
     }
-
+    
     @Override
     public void delete(Long carId) throws EntityNotFoundException {
         find(carId);
         carDORepository.delete(carId);
     }
-
+    
     @Override
     public CarDO update(Long carId, CarDO carDO) throws EntityNotFoundException {
         find(carId);
         return carDORepository.save(carDO);
     }
-
+    
+    @Override
+    public List<CarDO> findAll() throws EntityNotFoundException {
+        
+        Iterable<CarDO> iterables = carDORepository.findAll();
+        
+        if (iterables == null) {
+            throw new EntityNotFoundException("Could not find entity");
+        }
+        
+        List<CarDO> cars = new ArrayList<>();
+        iterables.forEach(cars::add);
+        
+        return cars;
+    }
+    
 }

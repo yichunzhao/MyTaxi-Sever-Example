@@ -66,11 +66,11 @@ public class CarDO implements Serializable {
     @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, targetEntity = ManufacturerDO.class)
     protected ManufacturerDO manufacturer;
 
-    @Column
+    @Column(name = "DATE_CREATION")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private ZonedDateTime dateCreation;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Driver_PK_FK", referencedColumnName = "id")
     private DriverDO driver;
 
@@ -91,14 +91,7 @@ public class CarDO implements Serializable {
     }
 
     public boolean isOccupied() {
-        boolean occupied = false;
-        if (driver != null && driver.getDeleted() == false
-                && driver.getId() != null && driver.getUsername() != null) {
-
-            occupied = true;
-        }
-        
-        return occupied;
+        return this.driver != null; 
     }
 
 }

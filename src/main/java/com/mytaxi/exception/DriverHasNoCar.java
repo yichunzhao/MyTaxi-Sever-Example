@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author YNZ
  */
 
-@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Selected car is alaredy in use ...")
-public class CarAlreadyInUseException extends Exception {
+@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Driver has no car ...")
+public class DriverHasNoCar extends Exception {
 
-    public CarAlreadyInUseException(String message) {
-        super(message);
+    public DriverHasNoCar(String msg) {
+        super(msg);
     }
-
+    
 }
