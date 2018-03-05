@@ -3,12 +3,13 @@ package com.mytaxi.domainvalue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import org.springframework.data.geo.Point;
 
 @Embeddable
-public class GeoCoordinate
+public class GeoCoordinate implements Serializable
 {
 
     private static final int MAX_LATITUDE = 90;

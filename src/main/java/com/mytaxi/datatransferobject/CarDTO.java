@@ -5,7 +5,6 @@
  */
 package com.mytaxi.datatransferobject;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mytaxi.domainvalue.EngineType;
 import lombok.Getter;
 

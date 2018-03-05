@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mytaxi.domainvalue;
+package com.mytaxi.controller.driverfilter;
+
+import com.mytaxi.datatransferobject.DriverDTO;
+import java.util.List;
 
 /**
  *
  * @author YNZ
  */
-public enum EngineType {
-    ELECTRIC, GAS
+public interface Criteria {
+
+    List<DriverDTO> meetCriteria(List<DriverDTO> drivers);
 
 }

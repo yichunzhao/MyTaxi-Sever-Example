@@ -92,4 +92,11 @@ public class DriverControllerIT {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void testFindAllOnlineDriversSuccess() throws Exception {
+        this.mvc.perform(get("/v1/drivers").param("onlineStatus", "ONLINE")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
 }

@@ -47,15 +47,18 @@ values
  'aced0005737200226f72672e737072696e676672616d65776f726b2e646174612e67656f2e506f696e7431b9e90ef11a4006020002440001784400017978704023000000000000404bfa1cac083127', now(), now(), false, 'ONLINE',
 'driver09pw', 'driver09');
 
+-- Create Car having a driver 
 
 insert into CAR (CAR_PK, LISENCE_PLATE, SEAT_COUNT, CONVERTIBLE, RATING, ENGINE_TYPE, DATE_CREATION, Driver_PK_FK)
 values
 (1, 'XXXYYOO', 5, false, 5, 'ELECTRIC', now(), 8);
 
+-- Create Car without a driver 
 insert into CAR (CAR_PK, LISENCE_PLATE, SEAT_COUNT, CONVERTIBLE, RATING, ENGINE_TYPE, DATE_CREATION)
 values
 (2, 'YYOO123', 5, false, 5, 'GAS', now());
 
+-- Create Car Manufacturer
 insert into MANUFACTURER (MANUFACTURE_PK, NAME, CAR_PK_FK)
 values (1, 'Ford', 1);
 

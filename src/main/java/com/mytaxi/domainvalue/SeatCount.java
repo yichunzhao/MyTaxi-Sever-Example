@@ -9,7 +9,16 @@ package com.mytaxi.domainvalue;
  *
  * @author YNZ
  */
-public enum EngineType {
-    ELECTRIC, GAS
+public enum SeatCount {
+    FIVE(5), SEVEN(7);
 
+    private int count;
+
+    private SeatCount(int count) {
+        this.count = count;
+    }
+    
+    public int count(){
+        return this.count;
+    }
 }
