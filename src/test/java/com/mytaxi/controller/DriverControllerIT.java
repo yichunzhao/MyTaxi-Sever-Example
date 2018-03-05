@@ -6,6 +6,7 @@
 package com.mytaxi.controller;
 
 import javax.transaction.Transactional;
+import static org.hamcrest.Matchers.hasSize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -97,6 +99,32 @@ public class DriverControllerIT {
         this.mvc.perform(get("/v1/drivers").param("onlineStatus", "ONLINE")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testFindDriversWith_GasCar() throws Exception {
+        this.mvc.perform(get("/v1/drivers/gas_car").param("onlineStatus", "ONLINE")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    public void testFindDriversWith_ElectricCar() throws Exception {
+        this.mvc.perform(get("/v1/drivers/electric_car").param("onlineStatus", "ONLINE")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    public void testfindDriversWith_FiveSeatCar() throws Exception {
+        this.mvc.perform(get("/v1/drivers/five_seat_car")
+                .param("onlineStatus", "ONLINE")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
+
     }
 
 }

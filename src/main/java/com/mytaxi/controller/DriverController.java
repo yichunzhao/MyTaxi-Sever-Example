@@ -1,6 +1,11 @@
 package com.mytaxi.controller;
 
+import com.mytaxi.controller.driverfilter.AndCriteria;
+import com.mytaxi.controller.driverfilter.ElectricCar;
+import com.mytaxi.controller.driverfilter.FiveSeatCar;
+import com.mytaxi.controller.driverfilter.GasCar;
 import com.mytaxi.controller.mapper.DriverMapper;
+import com.mytaxi.controller.mapper.DriversHavingCar;
 import com.mytaxi.datatransferobject.DriverDTO;
 import com.mytaxi.domainobject.CarDO;
 import com.mytaxi.domainobject.DriverDO;
@@ -112,4 +117,35 @@ public class DriverController {
             throws ConstraintsViolationException, EntityNotFoundException {
         return DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
     }
+
+    @GetMapping(value = "/gas_car")
+    public List<DriverDTO> findDriversWithGasCar(@RequestParam OnlineStatus onlineStatus)
+            throws ConstraintsViolationException, EntityNotFoundException {
+
+        List<DriverDTO> drivers = DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
+        
+        AndCriteria andCriteria = new AndCriteria(new DriversHavingCar(), new GasCar());
+        return andCriteria.meetCriteria(drivers);
+    }
+    
+    @GetMapping(value = "/electric_car")
+    public List<DriverDTO> findDriversWithElectricCar(@RequestParam OnlineStatus onlineStatus)
+            throws ConstraintsViolationException, EntityNotFoundException {
+
+        List<DriverDTO> drivers = DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
+        
+        AndCriteria andCriteria = new AndCriteria(new DriversHavingCar(), new ElectricCar());
+        return andCriteria.meetCriteria(drivers);
+    }
+    
+    @GetMapping(value = "/five_seat_car")
+    public List<DriverDTO> findDriversWithFiveSeatCar(@RequestParam OnlineStatus onlineStatus)
+            throws ConstraintsViolationException, EntityNotFoundException {
+
+        List<DriverDTO> drivers = DriverMapper.makeDriverDTOList(driverService.find(onlineStatus));
+        
+        AndCriteria andCriteria = new AndCriteria(new DriversHavingCar(), new FiveSeatCar());
+        return andCriteria.meetCriteria(drivers);
+    }
+
 }
