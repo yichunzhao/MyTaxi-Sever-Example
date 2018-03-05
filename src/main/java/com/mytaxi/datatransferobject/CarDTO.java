@@ -28,7 +28,7 @@ public class CarDTO {
 
     protected EngineType engineType;
 
-    protected boolean isOccupied;
+    protected boolean occupied;
 
     protected ManufacturerDTO manufacturer;
 
@@ -43,6 +43,7 @@ public class CarDTO {
         this.manufacturer = builder.manufacturer;
         this.rating = builder.rating;
         this.seatCount = builder.seatCount;
+        this.occupied = builder.occupied;
     }
 
     public static Builder NewBuilder() {
@@ -63,7 +64,7 @@ public class CarDTO {
 
         private EngineType engineType;
 
-        private boolean isOccupied;
+        private boolean occupied;
 
         private ManufacturerDTO manufacturer;
 
@@ -97,8 +98,8 @@ public class CarDTO {
             return this;
         }
 
-        public Builder isOccupied(boolean isOccupied) {
-            this.isOccupied = isOccupied;
+        public Builder isOccupied(boolean occupied) {
+            this.occupied = occupied;
             return this;
         }
 

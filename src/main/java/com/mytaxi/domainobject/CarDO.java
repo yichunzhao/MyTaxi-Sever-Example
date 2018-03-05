@@ -70,7 +70,7 @@ public class CarDO implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private ZonedDateTime dateCreation;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "Driver_PK_FK", referencedColumnName = "id")
     private DriverDO driver;
 

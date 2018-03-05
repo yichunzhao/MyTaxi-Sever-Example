@@ -7,6 +7,7 @@ import com.mytaxi.domainobject.DriverDO;
 import com.mytaxi.domainvalue.OnlineStatus;
 import com.mytaxi.exception.CarAlreadyInUseException;
 import com.mytaxi.exception.ConstraintsViolationException;
+import com.mytaxi.exception.DriverAlreadySelectException;
 import com.mytaxi.exception.DriverHasNoCar;
 import com.mytaxi.exception.EntityNotFoundException;
 import com.mytaxi.exception.OffLineDriverNotAllowed;
@@ -69,8 +70,11 @@ public class DriverController {
     }
 
     @PutMapping("/{driverId}/select")
-    public DriverDTO selectCar(@PathVariable long driverId, @RequestParam long carId) throws EntityNotFoundException, CarAlreadyInUseException, OffLineDriverNotAllowed {
+    public DriverDTO selectCar(@PathVariable long driverId, @RequestParam long carId) throws EntityNotFoundException, CarAlreadyInUseException, OffLineDriverNotAllowed, DriverAlreadySelectException {
         DriverDO driverDO = driverService.find(driverId);
+        if (driverDO.getCar() != null) {
+            throw new DriverAlreadySelectException("Driver " + driverId + " is driving a car");
+        }
         if (driverDO.getOnlineStatus() == OnlineStatus.OFFLINE) {
             throw new OffLineDriverNotAllowed("Offline driver " + driverId + " not allowed to select a car");
         }
@@ -79,11 +83,11 @@ public class DriverController {
         if (carDO.isOccupied()) {
             throw new CarAlreadyInUseException("Car " + carId + " already in use! ");
         }
-        
+
         carDO.setDriver(driverDO);
-        driverDO.setCar(carDO);
-        
-        DriverDO updated = driverService.update(driverId, driverDO);
+
+        carService.update(carId, carDO);
+        DriverDO updated = driverService.find(driverId);
         return DriverMapper.makeDriverDTO(updated);
     }
 
@@ -93,9 +97,13 @@ public class DriverController {
         if (driverDO.getCar() == null) {
             throw new DriverHasNoCar("Driver has not a car ... ");
         }
-        
-        driverDO.setCar(null);
-        DriverDO updated = driverService.update(driverId, driverDO);
+
+        Long carId = driverDO.getCar().getId();
+        CarDO carDO = carService.find(carId);
+        carDO.setDriver(null);
+        carService.update(carId, carDO);
+
+        DriverDO updated = driverService.find(driverId);
         return DriverMapper.makeDriverDTO(updated);
     }
 
